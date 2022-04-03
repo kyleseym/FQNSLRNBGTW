@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  dvwa:
+    image: vulnerables/web-dvwa
+    networks:
+      proxnet:
+        ipv4_address: 172.20.0.5
+  modsec:
+    build: ./modsec
+    ports:
+      - "8080:80"
+    networks:
+      - proxnet  
+  tlsprox:
+    build: ./tlsprox
+    ports:
+      - "443:443"
+    networks:
+      - proxnet   
+networks:
+  proxnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+
